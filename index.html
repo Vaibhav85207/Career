@@ -1,8 +1,28 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0f172a"><link rel="manifest" href="manifest.json"><title>Career Sprint</title>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0f172a"><link rel="manifest" href="manifest.json">
+<title>Career Sprint</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#0f172a;font-family:system-ui,-apple-system,Segoe UI,sans-serif}header{background:#0f172a;color:#fff;padding:18px 16px;position:sticky;top:0;z-index:10}h1{margin:0;font-size:22px}.sub{font-size:12px;color:#cbd5e1}.wrap{max-width:850px;margin:auto;padding:12px 14px 90px}.nav{display:flex;gap:7px;overflow:auto;position:sticky;top:70px;background:#f5f7fb;padding:5px 0 10px;z-index:9}.nav button{white-space:nowrap}button{border:0;border-radius:11px;padding:10px 12px;font-weight:700;background:#e2e8f0;color:#0f172a}.active,.primary{background:#0f172a;color:#fff}.card{background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:15px;margin:10px 0}.hero{background:#0f172a;color:#fff}.big{font-size:38px;font-weight:800}.muted{color:#64748b;font-size:12px}.hero .muted{color:#cbd5e1}.progress{height:9px;background:#e2e8f0;border-radius:99px;overflow:hidden;margin:8px 0}.progress>div{height:100%;background:#0f172a;border-radius:99px}.hero .progress{background:#334155}.hero .progress>div{background:#fff}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{text-align:center;background:#f8fafc;padding:11px;border-radius:13px}.stat b{display:block;font-size:20px}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}.task{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid #e2e8f0}.task:last-child{border:0}.task input{width:20px;height:20px}.done{text-decoration:line-through;color:#94a3b8}.tag{display:inline-block;background:#eef2ff;border-radius:99px;padding:4px 8px;font-size:11px}textarea,input[type=text],input[type=date],input[type=time],select{width:100%;border:1px solid #cbd5e1;border-radius:10px;padding:10px;font:inherit;background:white}.small{font-size:12px;color:#64748b}.q{padding:12px 0;border-bottom:1px solid #e2e8f0}.q:last-child{border:0}.option{display:block;padding:7px 0}.score{font-size:28px;font-weight:800}.danger{background:#fee2e2}
-</style></head><body><header><h1>🚀 Career Sprint</h1><div class="sub">24-week Product Company + Data & AI Engineer preparation</div></header><div class="wrap"><div id="app"></div></div>
+*{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#0f172a;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:#0f172a;color:#fff;padding:18px 16px;position:sticky;top:0;z-index:20}h1{margin:0;font-size:22px}.sub{font-size:12px;color:#cbd5e1}
+main{max-width:850px;margin:auto;padding:12px 14px 90px}.nav{display:flex;gap:7px;overflow:auto;position:sticky;top:69px;background:#f5f7fb;padding:6px 0 10px;z-index:19}.nav button{white-space:nowrap}
+button{border:0;border-radius:11px;padding:10px 12px;font-weight:700;background:#e2e8f0;color:#0f172a;cursor:pointer}.active,.primary{background:#0f172a;color:#fff}.danger{background:#fee2e2}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:15px;margin:10px 0}.hero{background:#0f172a;color:#fff}.big{font-size:38px;font-weight:800}.muted,.small{color:#64748b;font-size:12px}.hero .muted{color:#cbd5e1}
+.progress{height:9px;background:#e2e8f0;border-radius:99px;overflow:hidden;margin:8px 0}.progress>div{height:100%;background:#0f172a;border-radius:99px}.hero .progress{background:#334155}.hero .progress>div{background:#fff}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{text-align:center;background:#f8fafc;padding:11px;border-radius:13px}.stat b{display:block;font-size:20px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}.tag{display:inline-block;background:#eef2ff;border-radius:99px;padding:4px 8px;font-size:11px}
+.task{display:flex;gap:10px;padding:12px 0;border-bottom:1px solid #e2e8f0}.task:last-child{border:0}.task input{width:20px;height:20px;margin-top:1px}.done{text-decoration:line-through;color:#94a3b8}
+textarea{width:100%;min-height:130px;border:1px solid #cbd5e1;border-radius:10px;padding:10px;font:inherit}.q{padding:12px 0;border-bottom:1px solid #e2e8f0}.q:last-child{border:0}.score{font-size:28px;font-weight:800}
+</style>
+</head>
+<body>
+<header><h1>🚀 Career Sprint</h1><div class="sub">24-week Product Company + Data & AI Engineer tracker</div></header>
+<main><div id="app"></div></main>
 <script>
+(function(){
+"use strict";
 const roadmap=[
 ["SQL","W1–3",["Fundamentals","Joins + CTEs","Window functions","Advanced SQL","Query optimization","70–100 problems"]],
 ["Python","W4–5",["Core Python","Collections","Generators","JSON/CSV/files","APIs + pagination","Logging + retries"]],
@@ -33,38 +53,53 @@ const questions=[
 ["RAG","How would you improve poor retrieval quality?"],
 ["AI Design","Design an enterprise RAG platform at scale."]
 ];
-let s=JSON.parse(localStorage.getItem("careerSprintV2")||'{"done":{},"notes":"","active":"Dashboard","days":{},"quiz":{},"lastDay":""}');
-const all=()=>roadmap.flatMap(([c,w,ts])=>ts.map((t,i)=>({c,w,t,i})));
-const pct=xs=>xs.length?Math.round(xs.filter(x=>s.done[x.c+"|"+x.i]).length/xs.length*100):0;
-function save(){localStorage.setItem("careerSprintV2",JSON.stringify(s));render()}
-function dayKey(){return new Date().toISOString().slice(0,10)}
-function streak(){let n=0,d=new Date();while(true){let k=d.toISOString().slice(0,10);if(!s.days[k])break;n++;d.setDate(d.getDate()-1)}return n}
+const KEY="careerSprintV3";
+let state;
+try{state=JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){state=null}
+if(!state) state={done:{},notes:"",view:"Dashboard",days:{},quiz:{}};
+
+function persist(){localStorage.setItem(KEY,JSON.stringify(state))}
+function allTasks(){const a=[];roadmap.forEach(r=>r[2].forEach((t,i)=>a.push({cat:r[0],week:r[1],task:t,index:i})));return a}
+function taskId(cat,i){return cat+"::"+i}
+function percent(items){if(!items.length)return 0;let n=items.filter(x=>state.done[taskId(x.cat,x.index)]).length;return Math.round(n/items.length*100)}
+function streak(){let n=0,d=new Date();while(n<365){let k=d.toISOString().slice(0,10);if(!state.days[k])break;n++;d.setDate(d.getDate()-1)}return n}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function setView(v){state.view=v;persist();render();window.scrollTo(0,0)}
+function toggleTask(cat,i){state.done[taskId(cat,i)]=!state.done[taskId(cat,i)];persist();render()}
+function markToday(){state.days[new Date().toISOString().slice(0,10)]=true;persist();render()}
+function saveNotes(){state.notes=document.getElementById("notesBox").value;persist();alert("Notes saved")}
+function resetAll(){if(confirm("Reset all roadmap progress, streak and quiz?")){state={done:{},notes:"",view:"Dashboard",days:{},quiz:{}};persist();render()}}
 function render(){
- const tasks=all(), done=tasks.filter(x=>s.done[x.c+"|"+x.i]).length, overall=pct(tasks), cats=["Dashboard","Today","Quiz","Roadmap","Notes"];
- let body="";
- if(s.active==="Dashboard"){
- body=`<div class="card hero"><div class="big">${overall}%</div><div class="muted">Product-company readiness</div><div class="progress"><div style="width:${overall}%"></div></div><div class="small" style="color:#cbd5e1">${done}/${tasks.length} tasks complete</div></div>
- <div class="grid"><div class="stat"><b>🔥 ${streak()}</b><span class="small">day streak</span></div><div class="stat"><b>${done}</b><span class="small">done</span></div><div class="stat"><b>${tasks.length-done}</b><span class="small">remaining</span></div></div>
- <div class="card"><h3>📈 Skill Progress</h3>${roadmap.map(([c,w,ts])=>{let items=ts.map((t,i)=>({c,i}));return `<div style="padding:7px 0"><div class="row between"><b>${c}</b><span class="small">${pct(items)}%</span></div><div class="progress"><div style="width:${pct(items)}%"></div></div></div>`}).join("")}</div>`;
- } else if(s.active==="Today"){
- const today=dayKey(), marked=!!s.days[today];
- body=`<div class="card"><div class="row between"><h2 style="margin:0">📅 Today's Sprint</h2><span class="tag">${today}</span></div><p class="small">Recommended 4-hour structure</p>
- ${[["SQL","45 min","Solve 2–3 problems"],["Python / DSA","45 min","Solve 1–2 coding problems"],["Data Engineering / AI","60 min","Learn + implement one concept"],["System Design","45 min","Design one component/system"],["Revision","15 min","Explain concepts aloud"]].map(x=>`<div class="task"><div><b>${x[0]}</b><div class="small">${x[1]} · ${x[2]}</div></div></div>`).join("")}
- <button class="primary" onclick="s.days['${today}']=true;save()">${marked?"✅ Day completed":"Mark today complete"}</button></div>
- <div class="card"><h3>🎯 Weekly rule</h3><p class="small">Learn → Implement → Explain → Interview. Complete one mock interview every week.</p></div>`;
- } else if(s.active==="Quiz"){
- let score=Object.values(s.quiz).filter(Boolean).length, total=questions.length;
- body=`<div class="card"><div class="score">${score}/${total}</div><div class="small">Questions marked as confidently answered</div><button style="margin-top:8px" class="danger" onclick="s.quiz={};save()">Reset quiz</button></div><div class="card">${questions.map((q,i)=>`<div class="q"><div class="tag">${q[0]}</div><p><b>${i+1}. ${q[1]}</b></p><label class="option"><input type="checkbox" ${s.quiz[i]?"checked":""} onchange="s.quiz[${i}]=this.checked;save()"> I can answer this confidently without notes</label></div>`).join("")}</div>`;
- } else if(s.active==="Notes"){
- body=`<div class="card"><h3>📝 Interview Notes</h3><textarea id="notes" placeholder="Weak areas, STAR stories, project explanations, questions...">${s.notes}</textarea><button class="primary" style="margin-top:8px" onclick="s.notes=document.getElementById('notes').value;save();alert('Saved')">Save notes</button></div><div class="card"><h3>💼 STAR stories</h3><p class="small">Prepare stories for: production incident, optimization, automation, conflict, failure, leadership, migration, deadline, architecture decision, biggest achievement.</p></div>`;
- } else {
- body=`<div class="card"><h2>🗺️ 24-Week Roadmap</h2><p class="small">Tap a phase to open its checklist.</p>${roadmap.map(([c,w,ts])=>`<div style="padding:11px 0;border-bottom:1px solid #e2e8f0" onclick="s.active=${JSON.stringify(c)};render()"><div class="row between"><b>${c}</b><span class="small">${w}</span></div><div class="progress"><div style="width:${pct(ts.map((t,i)=>({c,i})))}%"></div></div></div>`).join("")}</div>`;
- }
- if(roadmap.some(x=>x[0]===s.active)){
-  let r=roadmap.find(x=>x[0]===s.active), items=r[2].map((t,i)=>({c:r[0],w:r[1],t,i}));
-  body=`<div class="card"><div class="row between"><h2>${r[0]}</h2><span class="tag">${r[1]}</span></div><div class="progress"><div style="width:${pct(items)}%"></div></div><div class="small">${pct(items)}% complete</div></div><div class="card">${items.map(x=>`<label class="task"><input type="checkbox" ${s.done[x.c+"|"+x.i]?"checked":""} onchange="s.done['${x.c+"|"+x.i}']=this.checked;save()"><div class="${s.done[x.c+"|"+x.i]?"done":""}"><b>${x.t}</b><div class="small">${x.w}</div></div></label>`).join("")}</div><div class="card"><button onclick="s.active='Roadmap';render()">← Back to roadmap</button></div>`;
- }
- document.getElementById("app").innerHTML=`<div class="nav">${cats.map(c=>`<button class="${s.active===c?'active':''}" onclick="s.active=${JSON.stringify(c)};render()">${c}</button>`).join("")}</div>${body}`;
+const tasks=allTasks(),done=tasks.filter(x=>state.done[taskId(x.cat,x.index)]).length,overall=percent(tasks);
+const nav=["Dashboard","Today","Quiz","Roadmap","Notes"];
+let body="";
+if(state.view==="Dashboard"){
+body=`<div class="card hero"><div class="big">${overall}%</div><div class="muted">Product-company readiness</div><div class="progress"><div style="width:${overall}%"></div></div><div class="small" style="color:#cbd5e1">${done}/${tasks.length} tasks complete</div></div>
+<div class="grid"><div class="stat"><b>🔥 ${streak()}</b><span class="small">day streak</span></div><div class="stat"><b>${done}</b><span class="small">done</span></div><div class="stat"><b>${tasks.length-done}</b><span class="small">remaining</span></div></div>
+<div class="card"><h3>📈 Skill Progress</h3>${roadmap.map(r=>{const items=r[2].map((t,i)=>({cat:r[0],index:i})),p=percent(items);return `<div style="padding:7px 0"><div class="row between"><b>${esc(r[0])}</b><span class="small">${p}%</span></div><div class="progress"><div style="width:${p}%"></div></div></div>`}).join("")}</div>`;
+}else if(state.view==="Today"){
+const k=new Date().toISOString().slice(0,10),doneToday=!!state.days[k];
+body=`<div class="card"><div class="row between"><h2 style="margin:0">📅 Today's Sprint</h2><span class="tag">${k}</span></div><p class="small">Recommended 4-hour structure</p>
+${[["SQL","45 min","Solve 2–3 SQL problems"],["Python / DSA","45 min","Solve 1–2 coding problems"],["Data Engineering / AI","60 min","Learn + implement one concept"],["System Design","45 min","Design one system/component"],["Revision","15 min","Explain concepts aloud"]].map(x=>`<div class="task"><div><b>${x[0]}</b><div class="small">${x[1]} · ${x[2]}</div></div></div>`).join("")}
+<button class="primary" onclick="markToday()">${doneToday?"✅ Day completed":"Mark today complete"}</button></div>`;
+}else if(state.view==="Quiz"){
+let score=Object.values(state.quiz).filter(Boolean).length;
+body=`<div class="card"><div class="score">${score}/${questions.length}</div><div class="small">Confident answers</div><br><button class="danger" onclick="state.quiz={};persist();render()">Reset quiz</button></div>
+<div class="card">${questions.map((q,i)=>`<div class="q"><span class="tag">${esc(q[0])}</span><p><b>${i+1}. ${esc(q[1])}</b></p><label><input type="checkbox" ${state.quiz[i]?"checked":""} onchange="state.quiz[${i}]=this.checked;persist();render()"> I can answer confidently without notes</label></div>`).join("")}</div>`;
+}else if(state.view==="Notes"){
+body=`<div class="card"><h3>📝 Interview Notes</h3><textarea id="notesBox" placeholder="Weak areas, STAR stories, project explanations, interview questions...">${esc(state.notes)}</textarea><br><br><button class="primary" onclick="saveNotes()">Save notes</button></div>
+<div class="card"><h3>💼 STAR checklist</h3><p class="small">Prepare stories for production incident, optimization, automation, migration, conflict, failure, leadership, tight deadline, architecture decision and biggest achievement.</p></div>
+<div class="card"><button class="danger" onclick="resetAll()">Reset all app data</button></div>`;
+}else{
+body=`<div class="card"><h2>🗺️ 24-Week Roadmap</h2><p class="small">Tap a phase to open its checklist.</p>${roadmap.map(r=>{const items=r[2].map((t,i)=>({cat:r[0],index:i})),p=percent(items);return `<div style="padding:11px 0;border-bottom:1px solid #e2e8f0"><div class="row between"><button onclick="setView(${JSON.stringify("phase:"+r[0])})">${esc(r[0])}</button><span class="small">${r[1]} · ${p}%</span></div><div class="progress"><div style="width:${p}%"></div></div></div>`}).join("")}</div>`;
 }
-render();if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js");
+if(state.view.startsWith("phase:")){
+const cat=state.view.slice(6),r=roadmap.find(x=>x[0]===cat);if(r){const items=r[2].map((t,i)=>({cat:r[0],week:r[1],task:t,index:i})),p=percent(items);
+body=`<div class="card"><div class="row between"><h2>${esc(r[0])}</h2><span class="tag">${r[1]}</span></div><div class="progress"><div style="width:${p}%"></div></div><div class="small">${p}% complete</div></div><div class="card">${items.map(x=>`<label class="task"><input type="checkbox" ${state.done[taskId(x.cat,x.index)]?"checked":""} onchange="toggleTask(${JSON.stringify(x.cat)},${x.index})"><div class="${state.done[taskId(x.cat,x.index)]?"done":""}"><b>${esc(x.task)}</b><div class="small">${x.week}</div></div></label>`).join("")}</div><div class="card"><button onclick="setView('Roadmap')">← Back</button></div>`}}
+document.getElementById("app").innerHTML=`<div class="nav">${nav.map(x=>`<button class="${state.view===x?'active':''}" onclick="setView(${JSON.stringify(x)})">${x}</button>`).join("")}</div>${body}`;
+}
+window.setView=setView;window.toggleTask=toggleTask;window.markToday=markToday;window.saveNotes=saveNotes;window.resetAll=resetAll;
+render();
+if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
+})();
 </script></body></html>
