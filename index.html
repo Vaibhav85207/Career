@@ -1,103 +1,120 @@
-<!doctype html>
-<html lang="en">
-<head>
+<!doctype html><html><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0f172a"><title>Career Sprint</title>
+<meta name="theme-color" content="#111827"><title>Career Sprint</title>
+<link rel="manifest" href="manifest.json">
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#0f172a;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
-header{background:#0f172a;color:#fff;padding:18px 16px;position:sticky;top:0;z-index:10}h1{margin:0;font-size:22px}.sub{font-size:12px;color:#cbd5e1}
-main{max-width:850px;margin:auto;padding:12px 14px 80px}.nav{display:flex;gap:7px;overflow:auto;padding:6px 0 10px;background:#f5f7fb;position:sticky;top:69px;z-index:9}.nav button{white-space:nowrap}
-button{border:0;border-radius:11px;padding:10px 12px;font-weight:700;background:#e2e8f0;color:#0f172a;cursor:pointer}.nav .active,.primary{background:#0f172a;color:#fff}.danger{background:#fee2e2}
-.card{background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:15px;margin:10px 0}.hero{background:#0f172a;color:#fff}.big{font-size:38px;font-weight:800}.muted,.small{font-size:12px;color:#64748b}.hero .muted{color:#cbd5e1}
-.progress{height:9px;background:#e2e8f0;border-radius:99px;overflow:hidden;margin:8px 0}.progress>div{height:100%;background:#0f172a;border-radius:99px}.hero .progress{background:#334155}.hero .progress>div{background:#fff}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{text-align:center;background:#f8fafc;padding:11px;border-radius:13px}.stat b{display:block;font-size:20px}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}
-.tag{display:inline-block;background:#eef2ff;border-radius:99px;padding:4px 8px;font-size:11px}.task{display:flex;gap:10px;padding:12px 0;border-bottom:1px solid #e2e8f0}.task:last-child{border:0}.task input{width:20px;height:20px}.done{text-decoration:line-through;color:#94a3b8}
-textarea{width:100%;min-height:130px;border:1px solid #cbd5e1;border-radius:10px;padding:10px;font:inherit}.q{padding:12px 0;border-bottom:1px solid #e2e8f0}.score{font-size:28px;font-weight:800}
-.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.calhead{text-align:center;font-size:11px;color:#64748b;font-weight:700;padding:5px}.day{min-height:48px;border:1px solid #e2e8f0;border-radius:9px;background:#fff;padding:5px;text-align:center;font-size:12px;cursor:pointer}.day.empty{border:0;background:transparent;cursor:default}.day.completed{background:#dcfce7;border-color:#86efac}.day.today{outline:2px solid #0f172a}.day .num{font-weight:800}.day .mark{font-size:10px;color:#166534}
-</style>
-</head>
-<body>
-<header><h1>🚀 Career Sprint</h1><div class="sub">24-week Product Company + Data & AI Engineer tracker</div></header>
-<main><div id="app"></div></main>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui;background:#f3f4f6;color:#111827}
+header{background:#111827;color:#fff;padding:20px 16px}header h1{margin:0}header p{margin:5px 0;color:#cbd5e1;font-size:13px}
+nav{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;background:#fff;padding:8px;position:sticky;top:0;z-index:5}
+nav button{border:0;background:#eef2f7;border-radius:9px;padding:11px 2px;font-weight:700;font-size:11px}
+nav button.active{background:#111827;color:#fff}main{max-width:850px;margin:auto;padding:15px}.page{display:none}.page.active{display:block}
+.card{background:#fff;border-radius:15px;padding:15px;margin:12px 0;box-shadow:0 2px 10px #0001}.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.stat{background:#f8fafc;padding:12px;border-radius:10px}.big{font-size:34px;font-weight:800}.muted{color:#6b7280;font-size:13px}
+.bar{height:9px;background:#e5e7eb;border-radius:9px;overflow:hidden}.fill{height:100%;background:#16a34a}
+.check{display:flex;gap:9px;padding:9px 0;border-bottom:1px solid #eee}.check input{accent-color:#16a34a}
+.action{border:0;background:#111827;color:white;border-radius:9px;padding:11px 14px;font-weight:700}
+.secondary{background:#e5e7eb;color:#111827}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.day,.dow{min-height:38px;display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:12px}
+.dow{font-weight:bold;color:#6b7280}.day{background:#eef2f7;cursor:pointer}.day.done{background:#22c55e;color:#fff;font-weight:bold}.day.today{outline:3px solid #111827}
+.day.empty{background:transparent;cursor:default}textarea{width:100%;min-height:180px;padding:12px;border:1px solid #d1d5db;border-radius:10px;font:inherit}
+.phase{border-left:4px solid #111827}
+@media(max-width:600px){.grid{grid-template-columns:1fr 1fr}}
+</style></head><body>
+<header><h1>🚀 Career Sprint</h1><p>24-week Product Company + Data & AI Engineer tracker</p></header>
+<nav id="nav"></nav><main>
+<section id="dashboard" class="page active"><h2>Dashboard</h2>
+<div class="card"><div class="muted">Overall readiness</div><div class="big" id="overall">0%</div><div class="bar"><div id="overallBar" class="fill"></div></div></div>
+<div id="skills" class="grid"></div><div class="card"><h3>Study streak</h3><div class="big"><span id="streak">0</span> days</div></div></section>
+
+<section id="today" class="page"><h2>Today</h2><div class="card"><b id="todayDate"></b>
+<h3>Recommended 4-hour session</h3><div id="todayTasks"></div><button id="completeToday" class="action">✓ Mark today complete</button></div>
+<div class="card"><h3>Calendar</h3><div id="calendar" class="calendar"></div><p class="muted">🟩 completed · ⬜ not completed · outlined = today. Tap any date.</p></div></section>
+
+<section id="quiz" class="page"><h2>Interview Quiz</h2><div id="quizList" class="card"></div></section>
+<section id="roadmap" class="page"><h2>24-Week Roadmap</h2><div id="roadmapList"></div></section>
+<section id="notes" class="page"><h2>Notes</h2><div class="card"><textarea id="notesText" placeholder="Write interview notes and STAR stories..."></textarea><br><br><button id="saveNotes" class="action">Save notes</button><span id="saved" class="muted"></span></div>
+<div class="card"><h3>STAR checklist</h3><div id="star"></div></div><div class="card"><button id="reset" class="action secondary">Reset all data</button></div></section>
+</main>
 <script>
-(function(){
-const KEY="careerSprintV4";
-const roadmap=[
-["SQL","W1–3",["Fundamentals","Joins + CTEs","Window functions","Advanced SQL","Query optimization","70–100 problems"]],
-["Python","W4–5",["Core Python","Collections","Generators","JSON/CSV/files","APIs + pagination","Logging + retries"]],
-["DSA","W6–8",["Arrays + strings","HashMap/HashSet","Two pointers","Sliding window","Stack + queue","Binary search","Trees/BFS/DFS","Heap + graphs"]],
-["Data Modeling","W9",["OLTP vs OLAP","Normalization","Facts + dimensions","Star schema","SCD Type 1","SCD Type 2","Grain + keys"]],
-["Spark / PySpark","W10–12",["Architecture","Jobs/stages/tasks","Partitions + shuffle","PySpark APIs","Joins + windows","Caching","Skew + salting","AQE","Memory + small files"]],
-["Databricks / Delta","W13–14",["Clusters + Workflows","Unity Catalog","Delta log","ACID","MERGE + CDC","Time travel","OPTIMIZE + Z-Order","Liquid clustering","VACUUM"]],
-["Azure","W15",["ADF pipelines","Integration Runtime","Parameters + variables","Metadata-driven ETL","Incremental loads","ADLS Gen2","RBAC/ACL","Azure DevOps CI/CD"]],
-["Kafka / Streaming","W16",["Kafka architecture","Topics + partitions","Offsets + groups","Replication + retention","Structured Streaming","Checkpoints","Watermarks","Late data + idempotency"]],
-["DE System Design","W17–18",["Requirements + scale","Architecture","Data model","Reliability","Scalability","Security","Monitoring","Cost","10 design problems"]],
-["ML","W19",["ML types","Regression","Classification","Trees + ensembles","Clustering","Train/validation/test","Overfitting + leakage","Precision/Recall/F1","ROC-AUC"]],
-["ML Engineering","W20",["ML pipelines","Feature engineering","MLflow","Experiment tracking","Model registry","Batch inference","Real-time inference","Drift + retraining"]],
-["LLMs","W21",["Tokens","Embeddings","Transformers","Attention","Context windows","Prompting","Temperature","Inference","Fine-tuning concepts"]],
-["RAG","W22",["Parsing","Chunking","Embeddings","Vector DB","Similarity search","Metadata filtering","Hybrid retrieval","Reranking","Evaluation"]],
-["AI System Design","W23",["Enterprise RAG","Real-time fraud ML","Recommendation system","Enterprise AI platform","LLM analytics","Scaling","Security","Monitoring"]],
-["Capstone","W24",["Architecture","Incremental ingestion","CDC","Medallion","SCD2","Data quality + audit","Spark optimization","Kafka","MLflow","RAG/LLM","CI/CD","Project story"]]
+const KEY="careerSprintV5";
+const phases=[
+["SQL",["Joins and CTEs","Window functions","Advanced SQL","Query optimization","70+ problems"]],
+["Python",["Core Python","Collections","Generators/files","APIs/logging/retries"]],
+["DSA",["Arrays/strings","HashMap/Set","Sliding window","Stack/queue","Binary search","Trees/BFS/DFS","Heap/graphs"]],
+["Data Modeling",["OLTP vs OLAP","Facts/dimensions","Star schema","SCD1/SCD2","Grain and keys"]],
+["Spark / PySpark",["Architecture","Partitions/shuffle","PySpark APIs","Joins/windows","Caching","Skew/salting/AQE","Memory/files"]],
+["Databricks / Delta",["Clusters/workflows","Unity Catalog","Delta ACID","MERGE/CDC","Time travel","OPTIMIZE/Z-order","Liquid clustering/VACUUM"]],
+["Azure",["ADF","Integration Runtime","Parameters","Metadata-driven ETL","ADLS security","DevOps CI/CD"]],
+["Kafka / Streaming",["Topics/partitions","Offsets/groups","Replication","Structured Streaming","Checkpoints/watermarks","Late data/idempotency"]],
+["System Design",["Requirements/scale","Architecture","Data model","Reliability","Scalability","Security","Monitoring/cost"]],
+["ML",["Regression/classification","Trees/ensembles","Clustering","Train/validation/test","Leakage/overfitting","Metrics"]],
+["ML Engineering",["Features","ML pipelines","MLflow","Registry","Batch/realtime","Drift/retraining"]],
+["LLMs",["Tokens/embeddings","Transformers/attention","Context","Prompting","Inference","Fine-tuning"]],
+["RAG",["Parsing","Chunking","Embeddings","Vector DB","Similarity search","Metadata filters","Hybrid/reranking","Evaluation"]],
+["AI System Design",["Enterprise RAG","Real-time ML","Recommendations","AI platform","LLM analytics","Scaling/security"]],
+["Capstone",["Incremental ingestion","CDC","Medallion","SCD2","Data quality","Spark optimization","Kafka","MLflow","RAG/LLM","CI/CD"]]
 ];
-const questions=[
-["SQL","Find the second-highest salary in each department."],["SQL","Find users who logged in for 3 consecutive days."],
-["PySpark","When would you use repartition vs coalesce?"],["Spark","How would you diagnose a slow Spark job?"],
-["Databricks","Why Delta Lake instead of Parquet?"],["ADF","How would you build a metadata-driven pipeline?"],
-["Kafka","How do partitions affect consumer scalability?"],["System Design","Design a CDC pipeline from PostgreSQL to a lakehouse."],
-["ML","Explain overfitting and data leakage."],["RAG","How would you improve poor retrieval quality?"],
-["AI Design","Design an enterprise RAG platform at scale."]
+const quiz=[
+["Repartition vs coalesce?","Repartition can increase or decrease partitions and normally shuffles. Coalesce usually reduces partitions with less shuffle."],
+["How do you handle Spark skew?","Use AQE/skew handling, broadcast suitable small tables, or salt hot keys."],
+["Why Delta instead of Parquet?","Delta adds transaction log, ACID, schema controls, MERGE and time travel."],
+["What is SCD2?","A history-preserving dimension pattern that creates a new row when tracked attributes change."],
+["Kafka consumer group?","Consumers in one group share partitions; one partition is assigned to one consumer in that group at a time."],
+["What is a watermark?","An event-time progress threshold used to control late data and state retention."],
+["Incremental ingestion design?","Use CDC or a reliable watermark, persist the last successful value, validate, and make retries idempotent."],
+["What is RAG?","Retrieve relevant external knowledge and give it to an LLM as context before generation."],
+["How improve RAG?","Better parsing/chunking, metadata filters, hybrid retrieval, reranking, query rewriting and evaluation."],
+["Production-ready pipeline?","Idempotency, retries, checkpoints, data quality, observability, security, alerts and CI/CD."],
+["Optimize a slow Spark job?","Inspect Spark UI/plan, reduce shuffle, choose joins carefully, handle skew, prune data and optimize files."]
 ];
-let state;try{state=JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){state=null}
-if(!state)state={view:"Dashboard",done:{},days:{},notes:"",quiz:{}};
-const $=id=>document.getElementById(id);
+let state=JSON.parse(localStorage.getItem(KEY)||'{"tasks":{},"days":{},"quiz":{},"notes":"","star":{}}');
+
+const nav=document.getElementById("nav");
+["dashboard","today","quiz","roadmap","notes"].forEach(id=>{
+ let b=document.createElement("button");b.textContent=id[0].toUpperCase()+id.slice(1);b.onclick=()=>show(id);b.dataset.id=id;nav.appendChild(b);
+});
 function save(){localStorage.setItem(KEY,JSON.stringify(state))}
-function id(c,i){return c+"::"+i}
-function tasks(){let a=[];roadmap.forEach(r=>r[2].forEach((t,i)=>a.push({cat:r[0],week:r[1],task:t,index:i})));return a}
-function pct(a){return a.length?Math.round(a.filter(x=>state.done[id(x.cat,x.index)]).length/a.length*100):0}
-function streak(){let n=0,d=new Date();while(n<365){let k=iso(d);if(!state.days[k])break;n++;d.setDate(d.getDate()-1)}return n}
-function iso(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
-function esc(x){return String(x).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function view(v){state.view=v;save();render();window.scrollTo(0,0)}
-function toggle(c,i){state.done[id(c,i)]=!state.done[id(c,i)];save();render()}
-function today(){state.days[iso(new Date())]=true;save();render()}
-function notes(){state.notes=$("notes").value;save();alert("Notes saved")}
-function reset(){if(confirm("Reset all progress, calendar and quiz?")){state={view:"Dashboard",done:{},days:{},notes:"",quiz:{}};save();render()}}
-function calendar(y,m){
- const first=new Date(y,m,1),last=new Date(y,m+1,0),start=first.getDay(), total=last.getDate(), now=iso(new Date());
- let h='<div class="calendar">';["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].forEach(x=>h+='<div class="calhead">'+x+'</div>');
- for(let i=0;i<start;i++)h+='<div class="day empty"></div>';
- for(let d=1;d<=total;d++){let dt=new Date(y,m,d),k=iso(dt),c=state.days[k]?"completed ":"",t=k===now?"today":"";h+=`<div class="day ${c}${t}" onclick="window.markDate('${k}')"><div class="num">${d}</div>${state.days[k]?'<div class="mark">✓ Complete</div>':'<div class="small">Missed</div>'}</div>`}
- return h+'</div>';
+function show(id){
+ document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("active",x.dataset.id===id));
+ if(id==="dashboard")renderDashboard(); if(id==="today")renderToday(); if(id==="quiz")renderQuiz(); if(id==="roadmap")renderRoadmap(); if(id==="notes")renderNotes();
 }
-window.markDate=function(k){if(state.days[k])delete state.days[k];else state.days[k]=true;save();render()}
-function render(){
- const ts=tasks(),done=ts.filter(x=>state.done[id(x.cat,x.index)]).length,overall=pct(ts);
- let body="";
- if(state.view==="Dashboard"){
-  body=`<div class="card hero"><div class="big">${overall}%</div><div class="muted">Product-company readiness</div><div class="progress"><div style="width:${overall}%"></div></div><div class="small" style="color:#cbd5e1">${done}/${ts.length} tasks complete</div></div>
-  <div class="grid"><div class="stat"><b>🔥 ${streak()}</b><span class="small">day streak</span></div><div class="stat"><b>${done}</b><span class="small">tasks done</span></div><div class="stat"><b>${ts.length-done}</b><span class="small">remaining</span></div></div>
-  <div class="card"><h3>📈 Skill Progress</h3>${roadmap.map(r=>{let a=r[2].map((t,i)=>({cat:r[0],index:i})),p=pct(a);return `<div style="padding:7px 0"><div class="row between"><b>${esc(r[0])}</b><span class="small">${p}%</span></div><div class="progress"><div style="width:${p}%"></div></div></div>`}).join("")}</div>`;
- } else if(state.view==="Today"){
-  let k=iso(new Date()),marked=!!state.days[k];body=`<div class="card"><div class="row between"><h2>📅 Today's Sprint</h2><span class="tag">${k}</span></div><p class="small">Recommended 4-hour structure</p>
-  ${[["SQL","45 min","Solve 2–3 SQL problems"],["Python / DSA","45 min","Solve 1–2 coding problems"],["Data Engineering / AI","60 min","Learn + implement one concept"],["System Design","45 min","Design one system/component"],["Revision","15 min","Explain concepts aloud"]].map(x=>`<div class="task"><div><b>${x[0]}</b><div class="small">${x[1]} · ${x[2]}</div></div></div>`).join("")}
-  <button class="primary" onclick="window.completeToday()">${marked?"✅ Day completed":"Mark today complete"}</button></div>
-  <div class="card"><h3>🗓️ Progress Calendar</h3><p class="small">Green = completed. Grey/white = missed or not completed. Tap a date to change its status.</p>${calendar(new Date().getFullYear(),new Date().getMonth())}</div>`;
- } else if(state.view==="Quiz"){
-  let score=Object.values(state.quiz).filter(Boolean).length;body=`<div class="card"><div class="score">${score}/${questions.length}</div><div class="small">Questions you can answer confidently without notes</div><br><button class="danger" onclick="window.resetQuiz()">Reset quiz</button></div><div class="card">${questions.map((q,i)=>`<div class="q"><span class="tag">${esc(q[0])}</span><p><b>${i+1}. ${esc(q[1])}</b></p><label><input type="checkbox" ${state.quiz[i]?"checked":""} onchange="window.quiz(${i},this.checked)"> I can answer confidently</label></div>`).join("")}</div>`;
- } else if(state.view==="Notes"){
-  body=`<div class="card"><h3>📝 Interview Notes</h3><textarea id="notes" placeholder="Weak areas, STAR stories, project explanations...">${esc(state.notes)}</textarea><br><br><button class="primary" onclick="window.saveNotes()">Save notes</button></div><div class="card"><h3>💼 STAR Stories</h3><p class="small">Prepare stories for production incident, optimization, automation, migration, conflict, failure, leadership, deadline, architecture decision and biggest achievement.</p></div><div class="card"><button class="danger" onclick="window.resetApp()">Reset all app data</button></div>`;
- } else if(state.view==="Roadmap"){
-  body=`<div class="card"><h2>🗺️ 24-Week Roadmap</h2><p class="small">Tap a phase.</p>${roadmap.map(r=>{let a=r[2].map((t,i)=>({cat:r[0],index:i})),p=pct(a);return `<div style="padding:11px 0;border-bottom:1px solid #e2e8f0"><div class="row between"><button onclick="window.openPhase(${JSON.stringify(r[0])})">${esc(r[0])}</button><span class="small">${r[1]} · ${p}%</span></div><div class="progress"><div style="width:${p}%"></div></div></div>`}).join("")}</div>`;
- } else if(state.view.startsWith("phase:")){
-  const cat=state.view.slice(6),r=roadmap.find(x=>x[0]===cat),a=r[2].map((t,i)=>({cat:r[0],week:r[1],task:t,index:i})),p=pct(a);
-  body=`<div class="card"><div class="row between"><h2>${esc(r[0])}</h2><span class="tag">${r[1]}</span></div><div class="progress"><div style="width:${p}%"></div></div><div class="small">${p}% complete</div></div><div class="card">${a.map(x=>`<label class="task"><input type="checkbox" ${state.done[id(x.cat,x.index)]?"checked":""} onchange="window.toggleTask(${JSON.stringify(x.cat)},${x.index})"><div class="${state.done[id(x.cat,x.index)]?"done":""}"><b>${esc(x.task)}</b><div class="small">${x.week}</div></div></label>`).join("")}</div><button onclick="window.show('Roadmap')">← Back</button>`;
- }
- const nav=["Dashboard","Today","Quiz","Roadmap","Notes"];
- $("app").innerHTML=`<div class="nav">${nav.map(n=>`<button class="${state.view===n?'active':''}" onclick="window.show(${JSON.stringify(n)})">${n}</button>`).join("")}</div>${body}`;
+function allKeys(){return phases.flatMap((p,i)=>p[1].map((_,j)=>i+"-"+j))}
+function progress(){let a=allKeys();return Math.round(a.filter(k=>state.tasks[k]).length/a.length*100)}
+function dateKey(d){return d.toISOString().slice(0,10)}
+function streakCalc(){let d=new Date(),n=0;while(state.days[dateKey(d)]){n++;d.setDate(d.getDate()-1)}return n}
+function renderDashboard(){
+ let p=progress();overall.textContent=p+"%";overallBar.style.width=p+"%";streak.textContent=streakCalc();
+ skills.innerHTML=phases.slice(0,9).map((p,i)=>{let q=Math.round(p[1].filter((_,j)=>state.tasks[i+"-"+j]).length/p[1].length*100);return '<div class="stat"><b>'+p[0]+'</b><div>'+q+'%</div><div class="bar"><div class="fill" style="width:'+q+'%"></div></div></div>'}).join("");
 }
-window.show=view;window.toggleTask=toggle;window.completeToday=today;window.saveNotes=notes;window.resetApp=reset;
-window.resetQuiz=function(){state.quiz={};save();render()};window.quiz=function(i,v){state.quiz[i]=v;save();render()};window.openPhase=function(c){view("phase:"+c)};
-render();
-})();
-</script>
-</body></html>
+function renderToday(){
+ let d=new Date(),k=dateKey(d);todayDate.textContent=d.toLocaleDateString(undefined,{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+ todayTasks.innerHTML=["SQL / Python","Spark / Databricks","System Design","AI / ML / RAG"].map(x=>'<div class="check">☐ '+x+'</div>').join("");
+ completeToday.textContent=state.days[k]?"✓ Today completed":"✓ Mark today complete";
+ completeToday.onclick=()=>{state.days[k]=!state.days[k];save();renderToday();renderDashboard()};renderCalendar(d);
+}
+function renderCalendar(now){
+ let y=now.getFullYear(),m=now.getMonth(),first=new Date(y,m,1),last=new Date(y,m+1,0),start=(first.getDay()+6)%7;
+ let out=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map(x=>'<div class="dow">'+x+'</div>').join("");
+ for(let i=0;i<start;i++)out+='<div class="day empty"></div>';
+ for(let n=1;n<=last.getDate();n++){let d=new Date(y,m,n),k=dateKey(d);out+='<div class="day '+(state.days[k]?"done ":"")+(k===dateKey(now)?"today":"")+'" data-k="'+k+'">'+n+'</div>'}
+ calendar.innerHTML=out;calendar.querySelectorAll("[data-k]").forEach(x=>x.onclick=()=>{state.days[x.dataset.k]=!state.days[x.dataset.k];save();renderCalendar(now);renderDashboard()});
+}
+function renderQuiz(){
+ quizList.innerHTML=quiz.map((q,i)=>'<div><b>'+(i+1)+'. '+q[0]+'</b><p class="muted">'+q[1]+'</p><label class="check"><input type="checkbox" data-q="'+i+'" '+(state.quiz[i]?"checked":"")+'> I can answer confidently</label></div>').join("");
+ quizList.querySelectorAll("[data-q]").forEach(x=>x.onchange=()=>{state.quiz[x.dataset.q]=x.checked;save()});
+}
+function renderRoadmap(){
+ roadmapList.innerHTML=phases.map((p,i)=>'<div class="card phase"><h3>Phase '+(i+1)+': '+p[0]+'</h3>'+p[1].map((x,j)=>'<label class="check"><input type="checkbox" data-t="'+i+'-'+j+'" '+(state.tasks[i+"-"+j]?"checked":"")+'>'+x+'</label>').join("")+'</div>').join("");
+ roadmapList.querySelectorAll("[data-t]").forEach(x=>x.onchange=()=>{state.tasks[x.dataset.t]=x.checked;save();renderRoadmap();renderDashboard()});
+}
+function renderNotes(){
+ notesText.value=state.notes||"";
+ star.innerHTML=["Situation","Task","Action","Result","Learning"].map((x,i)=>'<label class="check"><input type="checkbox" data-s="'+i+'" '+(state.star[i]?"checked":"")+'>'+x+'</label>').join("");
+ star.querySelectorAll("[data-s]").forEach(x=>x.onchange=()=>{state.star[x.dataset.s]=x.checked;save()});
+}
+saveNotes.onclick=()=>{state.notes=notesText.value;save();saved.textContent=" Saved ✓";setTimeout(()=>saved.textContent="",1200)};
+reset.onclick=()=>{if(confirm("Reset all progress?")){state={tasks:{},days:{},quiz:{},notes:"",star:{}};save();show("dashboard")}};
+renderDashboard();show("dashboard");
+</script></body></html>
