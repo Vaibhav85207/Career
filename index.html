@@ -2,19 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0f172a"><link rel="manifest" href="manifest.json">
-<title>Career Sprint</title>
+<meta name="theme-color" content="#0f172a"><title>Career Sprint</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#f5f7fb;color:#0f172a;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
-header{background:#0f172a;color:#fff;padding:18px 16px;position:sticky;top:0;z-index:20}h1{margin:0;font-size:22px}.sub{font-size:12px;color:#cbd5e1}
-main{max-width:850px;margin:auto;padding:12px 14px 90px}.nav{display:flex;gap:7px;overflow:auto;position:sticky;top:69px;background:#f5f7fb;padding:6px 0 10px;z-index:19}.nav button{white-space:nowrap}
-button{border:0;border-radius:11px;padding:10px 12px;font-weight:700;background:#e2e8f0;color:#0f172a;cursor:pointer}.active,.primary{background:#0f172a;color:#fff}.danger{background:#fee2e2}
-.card{background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:15px;margin:10px 0}.hero{background:#0f172a;color:#fff}.big{font-size:38px;font-weight:800}.muted,.small{color:#64748b;font-size:12px}.hero .muted{color:#cbd5e1}
+header{background:#0f172a;color:#fff;padding:18px 16px;position:sticky;top:0;z-index:10}h1{margin:0;font-size:22px}.sub{font-size:12px;color:#cbd5e1}
+main{max-width:850px;margin:auto;padding:12px 14px 80px}.nav{display:flex;gap:7px;overflow:auto;padding:6px 0 10px;background:#f5f7fb;position:sticky;top:69px;z-index:9}.nav button{white-space:nowrap}
+button{border:0;border-radius:11px;padding:10px 12px;font-weight:700;background:#e2e8f0;color:#0f172a;cursor:pointer}.nav .active,.primary{background:#0f172a;color:#fff}.danger{background:#fee2e2}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:15px;margin:10px 0}.hero{background:#0f172a;color:#fff}.big{font-size:38px;font-weight:800}.muted,.small{font-size:12px;color:#64748b}.hero .muted{color:#cbd5e1}
 .progress{height:9px;background:#e2e8f0;border-radius:99px;overflow:hidden;margin:8px 0}.progress>div{height:100%;background:#0f172a;border-radius:99px}.hero .progress{background:#334155}.hero .progress>div{background:#fff}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{text-align:center;background:#f8fafc;padding:11px;border-radius:13px}.stat b{display:block;font-size:20px}
-.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}.tag{display:inline-block;background:#eef2ff;border-radius:99px;padding:4px 8px;font-size:11px}
-.task{display:flex;gap:10px;padding:12px 0;border-bottom:1px solid #e2e8f0}.task:last-child{border:0}.task input{width:20px;height:20px;margin-top:1px}.done{text-decoration:line-through;color:#94a3b8}
-textarea{width:100%;min-height:130px;border:1px solid #cbd5e1;border-radius:10px;padding:10px;font:inherit}.q{padding:12px 0;border-bottom:1px solid #e2e8f0}.q:last-child{border:0}.score{font-size:28px;font-weight:800}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{text-align:center;background:#f8fafc;padding:11px;border-radius:13px}.stat b{display:block;font-size:20px}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}
+.tag{display:inline-block;background:#eef2ff;border-radius:99px;padding:4px 8px;font-size:11px}.task{display:flex;gap:10px;padding:12px 0;border-bottom:1px solid #e2e8f0}.task:last-child{border:0}.task input{width:20px;height:20px}.done{text-decoration:line-through;color:#94a3b8}
+textarea{width:100%;min-height:130px;border:1px solid #cbd5e1;border-radius:10px;padding:10px;font:inherit}.q{padding:12px 0;border-bottom:1px solid #e2e8f0}.score{font-size:28px;font-weight:800}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.calhead{text-align:center;font-size:11px;color:#64748b;font-weight:700;padding:5px}.day{min-height:48px;border:1px solid #e2e8f0;border-radius:9px;background:#fff;padding:5px;text-align:center;font-size:12px;cursor:pointer}.day.empty{border:0;background:transparent;cursor:default}.day.completed{background:#dcfce7;border-color:#86efac}.day.today{outline:2px solid #0f172a}.day .num{font-weight:800}.day .mark{font-size:10px;color:#166534}
 </style>
 </head>
 <body>
@@ -22,7 +21,7 @@ textarea{width:100%;min-height:130px;border:1px solid #cbd5e1;border-radius:10px
 <main><div id="app"></div></main>
 <script>
 (function(){
-"use strict";
+const KEY="careerSprintV4";
 const roadmap=[
 ["SQL","W1–3",["Fundamentals","Joins + CTEs","Window functions","Advanced SQL","Query optimization","70–100 problems"]],
 ["Python","W4–5",["Core Python","Collections","Generators","JSON/CSV/files","APIs + pagination","Logging + retries"]],
@@ -41,65 +40,64 @@ const roadmap=[
 ["Capstone","W24",["Architecture","Incremental ingestion","CDC","Medallion","SCD2","Data quality + audit","Spark optimization","Kafka","MLflow","RAG/LLM","CI/CD","Project story"]]
 ];
 const questions=[
-["SQL","Find the second-highest salary in each department."],
-["SQL","Find users who logged in for 3 consecutive days."],
-["PySpark","When would you use repartition vs coalesce?"],
-["Spark","How would you diagnose a slow Spark job?"],
-["Databricks","Why Delta Lake instead of Parquet?"],
-["ADF","How would you build a metadata-driven pipeline?"],
-["Kafka","How do partitions affect consumer scalability?"],
-["System Design","Design a CDC pipeline from PostgreSQL to a lakehouse."],
-["ML","Explain overfitting and data leakage."],
-["RAG","How would you improve poor retrieval quality?"],
+["SQL","Find the second-highest salary in each department."],["SQL","Find users who logged in for 3 consecutive days."],
+["PySpark","When would you use repartition vs coalesce?"],["Spark","How would you diagnose a slow Spark job?"],
+["Databricks","Why Delta Lake instead of Parquet?"],["ADF","How would you build a metadata-driven pipeline?"],
+["Kafka","How do partitions affect consumer scalability?"],["System Design","Design a CDC pipeline from PostgreSQL to a lakehouse."],
+["ML","Explain overfitting and data leakage."],["RAG","How would you improve poor retrieval quality?"],
 ["AI Design","Design an enterprise RAG platform at scale."]
 ];
-const KEY="careerSprintV3";
-let state;
-try{state=JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){state=null}
-if(!state) state={done:{},notes:"",view:"Dashboard",days:{},quiz:{}};
-
-function persist(){localStorage.setItem(KEY,JSON.stringify(state))}
-function allTasks(){const a=[];roadmap.forEach(r=>r[2].forEach((t,i)=>a.push({cat:r[0],week:r[1],task:t,index:i})));return a}
-function taskId(cat,i){return cat+"::"+i}
-function percent(items){if(!items.length)return 0;let n=items.filter(x=>state.done[taskId(x.cat,x.index)]).length;return Math.round(n/items.length*100)}
-function streak(){let n=0,d=new Date();while(n<365){let k=d.toISOString().slice(0,10);if(!state.days[k])break;n++;d.setDate(d.getDate()-1)}return n}
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function setView(v){state.view=v;persist();render();window.scrollTo(0,0)}
-function toggleTask(cat,i){state.done[taskId(cat,i)]=!state.done[taskId(cat,i)];persist();render()}
-function markToday(){state.days[new Date().toISOString().slice(0,10)]=true;persist();render()}
-function saveNotes(){state.notes=document.getElementById("notesBox").value;persist();alert("Notes saved")}
-function resetAll(){if(confirm("Reset all roadmap progress, streak and quiz?")){state={done:{},notes:"",view:"Dashboard",days:{},quiz:{}};persist();render()}}
+let state;try{state=JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){state=null}
+if(!state)state={view:"Dashboard",done:{},days:{},notes:"",quiz:{}};
+const $=id=>document.getElementById(id);
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function id(c,i){return c+"::"+i}
+function tasks(){let a=[];roadmap.forEach(r=>r[2].forEach((t,i)=>a.push({cat:r[0],week:r[1],task:t,index:i})));return a}
+function pct(a){return a.length?Math.round(a.filter(x=>state.done[id(x.cat,x.index)]).length/a.length*100):0}
+function streak(){let n=0,d=new Date();while(n<365){let k=iso(d);if(!state.days[k])break;n++;d.setDate(d.getDate()-1)}return n}
+function iso(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function esc(x){return String(x).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function view(v){state.view=v;save();render();window.scrollTo(0,0)}
+function toggle(c,i){state.done[id(c,i)]=!state.done[id(c,i)];save();render()}
+function today(){state.days[iso(new Date())]=true;save();render()}
+function notes(){state.notes=$("notes").value;save();alert("Notes saved")}
+function reset(){if(confirm("Reset all progress, calendar and quiz?")){state={view:"Dashboard",done:{},days:{},notes:"",quiz:{}};save();render()}}
+function calendar(y,m){
+ const first=new Date(y,m,1),last=new Date(y,m+1,0),start=first.getDay(), total=last.getDate(), now=iso(new Date());
+ let h='<div class="calendar">';["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].forEach(x=>h+='<div class="calhead">'+x+'</div>');
+ for(let i=0;i<start;i++)h+='<div class="day empty"></div>';
+ for(let d=1;d<=total;d++){let dt=new Date(y,m,d),k=iso(dt),c=state.days[k]?"completed ":"",t=k===now?"today":"";h+=`<div class="day ${c}${t}" onclick="window.markDate('${k}')"><div class="num">${d}</div>${state.days[k]?'<div class="mark">✓ Complete</div>':'<div class="small">Missed</div>'}</div>`}
+ return h+'</div>';
+}
+window.markDate=function(k){if(state.days[k])delete state.days[k];else state.days[k]=true;save();render()}
 function render(){
-const tasks=allTasks(),done=tasks.filter(x=>state.done[taskId(x.cat,x.index)]).length,overall=percent(tasks);
-const nav=["Dashboard","Today","Quiz","Roadmap","Notes"];
-let body="";
-if(state.view==="Dashboard"){
-body=`<div class="card hero"><div class="big">${overall}%</div><div class="muted">Product-company readiness</div><div class="progress"><div style="width:${overall}%"></div></div><div class="small" style="color:#cbd5e1">${done}/${tasks.length} tasks complete</div></div>
-<div class="grid"><div class="stat"><b>🔥 ${streak()}</b><span class="small">day streak</span></div><div class="stat"><b>${done}</b><span class="small">done</span></div><div class="stat"><b>${tasks.length-done}</b><span class="small">remaining</span></div></div>
-<div class="card"><h3>📈 Skill Progress</h3>${roadmap.map(r=>{const items=r[2].map((t,i)=>({cat:r[0],index:i})),p=percent(items);return `<div style="padding:7px 0"><div class="row between"><b>${esc(r[0])}</b><span class="small">${p}%</span></div><div class="progress"><div style="width:${p}%"></div></div></div>`}).join("")}</div>`;
-}else if(state.view==="Today"){
-const k=new Date().toISOString().slice(0,10),doneToday=!!state.days[k];
-body=`<div class="card"><div class="row between"><h2 style="margin:0">📅 Today's Sprint</h2><span class="tag">${k}</span></div><p class="small">Recommended 4-hour structure</p>
-${[["SQL","45 min","Solve 2–3 SQL problems"],["Python / DSA","45 min","Solve 1–2 coding problems"],["Data Engineering / AI","60 min","Learn + implement one concept"],["System Design","45 min","Design one system/component"],["Revision","15 min","Explain concepts aloud"]].map(x=>`<div class="task"><div><b>${x[0]}</b><div class="small">${x[1]} · ${x[2]}</div></div></div>`).join("")}
-<button class="primary" onclick="markToday()">${doneToday?"✅ Day completed":"Mark today complete"}</button></div>`;
-}else if(state.view==="Quiz"){
-let score=Object.values(state.quiz).filter(Boolean).length;
-body=`<div class="card"><div class="score">${score}/${questions.length}</div><div class="small">Confident answers</div><br><button class="danger" onclick="state.quiz={};persist();render()">Reset quiz</button></div>
-<div class="card">${questions.map((q,i)=>`<div class="q"><span class="tag">${esc(q[0])}</span><p><b>${i+1}. ${esc(q[1])}</b></p><label><input type="checkbox" ${state.quiz[i]?"checked":""} onchange="state.quiz[${i}]=this.checked;persist();render()"> I can answer confidently without notes</label></div>`).join("")}</div>`;
-}else if(state.view==="Notes"){
-body=`<div class="card"><h3>📝 Interview Notes</h3><textarea id="notesBox" placeholder="Weak areas, STAR stories, project explanations, interview questions...">${esc(state.notes)}</textarea><br><br><button class="primary" onclick="saveNotes()">Save notes</button></div>
-<div class="card"><h3>💼 STAR checklist</h3><p class="small">Prepare stories for production incident, optimization, automation, migration, conflict, failure, leadership, tight deadline, architecture decision and biggest achievement.</p></div>
-<div class="card"><button class="danger" onclick="resetAll()">Reset all app data</button></div>`;
-}else{
-body=`<div class="card"><h2>🗺️ 24-Week Roadmap</h2><p class="small">Tap a phase to open its checklist.</p>${roadmap.map(r=>{const items=r[2].map((t,i)=>({cat:r[0],index:i})),p=percent(items);return `<div style="padding:11px 0;border-bottom:1px solid #e2e8f0"><div class="row between"><button onclick="setView(${JSON.stringify("phase:"+r[0])})">${esc(r[0])}</button><span class="small">${r[1]} · ${p}%</span></div><div class="progress"><div style="width:${p}%"></div></div></div>`}).join("")}</div>`;
+ const ts=tasks(),done=ts.filter(x=>state.done[id(x.cat,x.index)]).length,overall=pct(ts);
+ let body="";
+ if(state.view==="Dashboard"){
+  body=`<div class="card hero"><div class="big">${overall}%</div><div class="muted">Product-company readiness</div><div class="progress"><div style="width:${overall}%"></div></div><div class="small" style="color:#cbd5e1">${done}/${ts.length} tasks complete</div></div>
+  <div class="grid"><div class="stat"><b>🔥 ${streak()}</b><span class="small">day streak</span></div><div class="stat"><b>${done}</b><span class="small">tasks done</span></div><div class="stat"><b>${ts.length-done}</b><span class="small">remaining</span></div></div>
+  <div class="card"><h3>📈 Skill Progress</h3>${roadmap.map(r=>{let a=r[2].map((t,i)=>({cat:r[0],index:i})),p=pct(a);return `<div style="padding:7px 0"><div class="row between"><b>${esc(r[0])}</b><span class="small">${p}%</span></div><div class="progress"><div style="width:${p}%"></div></div></div>`}).join("")}</div>`;
+ } else if(state.view==="Today"){
+  let k=iso(new Date()),marked=!!state.days[k];body=`<div class="card"><div class="row between"><h2>📅 Today's Sprint</h2><span class="tag">${k}</span></div><p class="small">Recommended 4-hour structure</p>
+  ${[["SQL","45 min","Solve 2–3 SQL problems"],["Python / DSA","45 min","Solve 1–2 coding problems"],["Data Engineering / AI","60 min","Learn + implement one concept"],["System Design","45 min","Design one system/component"],["Revision","15 min","Explain concepts aloud"]].map(x=>`<div class="task"><div><b>${x[0]}</b><div class="small">${x[1]} · ${x[2]}</div></div></div>`).join("")}
+  <button class="primary" onclick="window.completeToday()">${marked?"✅ Day completed":"Mark today complete"}</button></div>
+  <div class="card"><h3>🗓️ Progress Calendar</h3><p class="small">Green = completed. Grey/white = missed or not completed. Tap a date to change its status.</p>${calendar(new Date().getFullYear(),new Date().getMonth())}</div>`;
+ } else if(state.view==="Quiz"){
+  let score=Object.values(state.quiz).filter(Boolean).length;body=`<div class="card"><div class="score">${score}/${questions.length}</div><div class="small">Questions you can answer confidently without notes</div><br><button class="danger" onclick="window.resetQuiz()">Reset quiz</button></div><div class="card">${questions.map((q,i)=>`<div class="q"><span class="tag">${esc(q[0])}</span><p><b>${i+1}. ${esc(q[1])}</b></p><label><input type="checkbox" ${state.quiz[i]?"checked":""} onchange="window.quiz(${i},this.checked)"> I can answer confidently</label></div>`).join("")}</div>`;
+ } else if(state.view==="Notes"){
+  body=`<div class="card"><h3>📝 Interview Notes</h3><textarea id="notes" placeholder="Weak areas, STAR stories, project explanations...">${esc(state.notes)}</textarea><br><br><button class="primary" onclick="window.saveNotes()">Save notes</button></div><div class="card"><h3>💼 STAR Stories</h3><p class="small">Prepare stories for production incident, optimization, automation, migration, conflict, failure, leadership, deadline, architecture decision and biggest achievement.</p></div><div class="card"><button class="danger" onclick="window.resetApp()">Reset all app data</button></div>`;
+ } else if(state.view==="Roadmap"){
+  body=`<div class="card"><h2>🗺️ 24-Week Roadmap</h2><p class="small">Tap a phase.</p>${roadmap.map(r=>{let a=r[2].map((t,i)=>({cat:r[0],index:i})),p=pct(a);return `<div style="padding:11px 0;border-bottom:1px solid #e2e8f0"><div class="row between"><button onclick="window.openPhase(${JSON.stringify(r[0])})">${esc(r[0])}</button><span class="small">${r[1]} · ${p}%</span></div><div class="progress"><div style="width:${p}%"></div></div></div>`}).join("")}</div>`;
+ } else if(state.view.startsWith("phase:")){
+  const cat=state.view.slice(6),r=roadmap.find(x=>x[0]===cat),a=r[2].map((t,i)=>({cat:r[0],week:r[1],task:t,index:i})),p=pct(a);
+  body=`<div class="card"><div class="row between"><h2>${esc(r[0])}</h2><span class="tag">${r[1]}</span></div><div class="progress"><div style="width:${p}%"></div></div><div class="small">${p}% complete</div></div><div class="card">${a.map(x=>`<label class="task"><input type="checkbox" ${state.done[id(x.cat,x.index)]?"checked":""} onchange="window.toggleTask(${JSON.stringify(x.cat)},${x.index})"><div class="${state.done[id(x.cat,x.index)]?"done":""}"><b>${esc(x.task)}</b><div class="small">${x.week}</div></div></label>`).join("")}</div><button onclick="window.show('Roadmap')">← Back</button>`;
+ }
+ const nav=["Dashboard","Today","Quiz","Roadmap","Notes"];
+ $("app").innerHTML=`<div class="nav">${nav.map(n=>`<button class="${state.view===n?'active':''}" onclick="window.show(${JSON.stringify(n)})">${n}</button>`).join("")}</div>${body}`;
 }
-if(state.view.startsWith("phase:")){
-const cat=state.view.slice(6),r=roadmap.find(x=>x[0]===cat);if(r){const items=r[2].map((t,i)=>({cat:r[0],week:r[1],task:t,index:i})),p=percent(items);
-body=`<div class="card"><div class="row between"><h2>${esc(r[0])}</h2><span class="tag">${r[1]}</span></div><div class="progress"><div style="width:${p}%"></div></div><div class="small">${p}% complete</div></div><div class="card">${items.map(x=>`<label class="task"><input type="checkbox" ${state.done[taskId(x.cat,x.index)]?"checked":""} onchange="toggleTask(${JSON.stringify(x.cat)},${x.index})"><div class="${state.done[taskId(x.cat,x.index)]?"done":""}"><b>${esc(x.task)}</b><div class="small">${x.week}</div></div></label>`).join("")}</div><div class="card"><button onclick="setView('Roadmap')">← Back</button></div>`}}
-document.getElementById("app").innerHTML=`<div class="nav">${nav.map(x=>`<button class="${state.view===x?'active':''}" onclick="setView(${JSON.stringify(x)})">${x}</button>`).join("")}</div>${body}`;
-}
-window.setView=setView;window.toggleTask=toggleTask;window.markToday=markToday;window.saveNotes=saveNotes;window.resetAll=resetAll;
+window.show=view;window.toggleTask=toggle;window.completeToday=today;window.saveNotes=notes;window.resetApp=reset;
+window.resetQuiz=function(){state.quiz={};save();render()};window.quiz=function(i,v){state.quiz[i]=v;save();render()};window.openPhase=function(c){view("phase:"+c)};
 render();
-if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
 })();
-</script></body></html>
+</script>
+</body></html>
